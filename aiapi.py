@@ -75,3 +75,12 @@ class AiResponse:
   def __init__(self, dir, msg = None):
     self.dir = dir
     self.msg = msg if msg is not None else ""
+
+# For testing
+if __name__ == "__main__":
+  qry = {'gid':'hello', 'board':'4,4,8,0,2', 'prior':'lrddu', 'drop':'1,0,2'}
+  req = AiRequest(qry)
+  rsp = AiResponse('left', 'testing\nsecond line')
+  print "Query:    " + str(qry)
+  print "Request:  " + str(req)
+  print "Response: " + str(rsp)

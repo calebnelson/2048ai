@@ -29,4 +29,17 @@ def AiLeft(aireq):
 	# Randomly pick down or right
 	dr = ['down', 'right']
 	return AiResponse(dr[randint(0,1)], "rand(d|r)")
-	
+
+# For testing
+if __name__ == "__main__":
+  r1 = AiRequest({'board':'4,4,8,0, 0,4,0,0', 'prior':'lu', 'drop':'1,1,4'})
+  r2 = AiRequest({'board':'4,8,2,0, 4,0,0,0', 'prior':'rd', 'drop':'0,2,2'})
+  print
+  print "Test Rand: " + str(r1)
+  print "Response:  " + str(AiRand(r1))
+  print
+  print "Test Left 1: " + str(r1)
+  print "Response:  " + str(AiLeft(r1))
+  print
+  print "Test Left 2: " + str(r2)
+  print "Response:  " + str(AiLeft(r2))	
