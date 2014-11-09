@@ -10,6 +10,7 @@
 from mod_python import apache, util
 from aiapi import AiRequest, AiResponse
 from aibasic import AiRand, AiLeft
+from corner import AiCorner
 
 def handler(req):
   # Get URL paramaters from apache web server as dictionary
@@ -21,6 +22,8 @@ def handler(req):
 
   # Build an aireq from the args, and call the proper AI
   aireq = AiRequest(qdict)
+  if aireq.ai == 'corner' or aireq.ai = 'ul':
+    airesp = AiCorner(aireq)
   if aireq.ai == 'left':
     airesp = AiLeft(aireq)
   else:
