@@ -18,13 +18,13 @@ def AiLeft(aireq):
 	for row in range(0,4):
 		for col in range(0, 3):
 			if (moveOk(row, col, row, col+1)):
-			return AiResponse("left")
+				return AiResponse("left")
 
 	# Try up
 	for col in range(0, 4):
 		for row in range(0, 3):
 			if (moveOk(row, col, row+1, col)):
-			return AiResponse("up")
+				return AiResponse("up")
 
 	# Randomly pick down or right
 	dr = ['down', 'right']
