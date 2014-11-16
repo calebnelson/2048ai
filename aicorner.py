@@ -7,5 +7,5 @@ def AiCorner(aireq):
 	if (len(aireq.prior) == 0):
 		return AiLeft(aireq)
 	for d in priority[aireq.prior[0]]:
-		if aireq.b.tryDir(d):
-			return AiResponse(name[d])
+		if (aireq.b.tryDir(d)):
+			return AiResponse(name[d], "by prio: " + priority[aireq.prior[0]] + " with board " + str(aireq.b.board))

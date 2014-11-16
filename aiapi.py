@@ -15,7 +15,7 @@ class AiRequest:
   arg    = ""   # optional args for the AI passed on url from the game
   gid    = ""   # id of game
   score  = ""   # current score
-  b  = new Board()   # current board as [row][col]
+  b  = Board(None)   # current board as [row][col]
   prior  = []   # recent prior moves as stack of 'u' 'd' 'l' 'r'
   drop   = ""   # cell dropped by game after last move as [row, col, value]
 
@@ -33,7 +33,7 @@ class AiRequest:
     self.arg    = qarg('arg', "")
     self.gid    = qarg('gid', "noid")
     self.score  = qarg('score', 0)
-    b.board = qarg('board', "4,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0"))
+    self.b = Board(qarg('board', "4,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0"))
     drop  = qarg('drop', "0,0,4")
     prior = qarg('prior', "u")
 
