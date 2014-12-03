@@ -60,7 +60,7 @@ class Board:
             return newboard
         else:
             if (dir == 'l' or dir == "left"):
-                for row in range(0,4):
+                for row in range(0, 4):
                     vscore = makeMove(newboard.board[row])
                     newboard.board[row] = vscore[0]
                     newscr += vscore[1]
@@ -74,7 +74,7 @@ class Board:
                     for row in range(0, 4):
                         newboard.board[row][col] = vscore[0][row]
             elif (dir == 'r' or dir == "right"):
-                for row in range(0,4):
+                for row in range(0, 4):
                     vector = []
                     for col in range(0, 4):
                         vector.append(newboard.board[row][3-col])

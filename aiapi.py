@@ -20,20 +20,14 @@ class AiRequest:
 
   # Build an empty request, or one parsed from a dictionary of URL params
   def __init__(self, query = None):
-
-    # helper to pick argument from query dictionary, or default
-    def qarg(name, default):
-      if query is not None and name in query:
-        return query[name]
-      return default
       
     # fetch params from URL
-    self.ai     = qarg('ai', "")
-    self.arg    = qarg('arg', "")
-    self.gid    = qarg('gid', "noid")
-    self.b = Board(qarg('board', "4,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0"), qarg('score', 0))
-    drop  = qarg('drop', "0,0,4")
-    prior = qarg('prior', "u")
+    self.ai     = query.get('ai', "")
+    self.arg    = query.get('arg', "")
+    self.gid    = query.get('gid', "noid")
+    self.b = Board(query.get('board', "4,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0"), query.get('score', 0))
+    drop  = query.get('drop', "0,0,4")
+    prior = query.get('prior', "u")
 
     # remove spaces, turn into array of ints at least 16 long, then 2D board
 
