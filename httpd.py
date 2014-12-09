@@ -8,6 +8,7 @@ from SimpleHTTPServer import SimpleHTTPRequestHandler
 from aiapi import AiRequest, AiResponse
 from aibasic import AiRand, AiLeft
 from aicorner import AiCorner
+from aiscore import AiScore
 
 class AiServer:
     port = 8008
@@ -68,7 +69,9 @@ class myHandler(SimpleHTTPRequestHandler):
         aireq = AiRequest(qdict)
 
         # Call the proper AI
-        if aireq.ai == 'corner' or aireq.ai == 'ul':
+        if aireq.ai == 'score':
+            airesp = AiScore(aireq)
+        elif aireq.ai == 'corner' or aireq.ai == 'ul':
             airesp = AiCorner(aireq)
         elif aireq.ai == 'left':
             airesp = AiLeft(aireq)

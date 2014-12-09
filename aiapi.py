@@ -60,6 +60,9 @@ class AiResponse:
     self.dir = dir
     self.msg = msg if msg is not None else ""
 
+  def __str__(self):
+    return "Direction: " + self.dir + " | Message: " + self.msg
+
 # For testing
 if __name__ == "__main__":
   qry = {'gid':'hello', 'board':'4,4,8,0,2', 'prior':'lrddu', 'drop':'1,0,2'}

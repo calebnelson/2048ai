@@ -1,4 +1,5 @@
 from types import *
+import copy
 class Board:
     board = []
     score = 0
@@ -7,11 +8,11 @@ class Board:
         self.board = []
         if (scr == None):
             scr = 0
-        self.score = scr
+        self.score = int(scr)
         if (grid == None):
             grid = "2,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0"
         if (type(grid) is ListType):
-            self.board = grid
+            self.board = copy.deepcopy(grid)
         else:
             grid = map(int, grid.replace(' ', '').split(','))
             if len(grid) < 16:
@@ -120,7 +121,10 @@ def makeMove(vector):
     return vscore
 
 if __name__ == "__main__":
-    testb = Board("2,2,0,0, 0,2,0,4, 0,0,0,0, 0,0,0,0", 2)
+    testb = Board("0,0,0,0, 0,0,0,0, 2,8,0,0, 16,4,2,4", 60)
     print testb.tryDir("left")
+    print testb.tryDir("up")
+    print testb.tryDir("down")
+    print testb.tryDir("right")
     print str(testb)
     print str(testb.move("r"))
