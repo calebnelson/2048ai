@@ -10,6 +10,7 @@ from aibasic import AiRand, AiLeft
 from aicorner import AiCorner
 from aiscore import AiScore
 from aiquality import AiQuality
+from ailookahead import AiLookahead
 
 class AiServer:
     port = 8008
@@ -70,7 +71,9 @@ class myHandler(SimpleHTTPRequestHandler):
         aireq = AiRequest(qdict)
 
         # Call the proper AI
-        if aireq.ai == 'quality':
+        if aireq.ai == 'lookahead':
+            airesp = AiLookahead(aireq)
+        elif aireq.ai == 'quality':
             airesp = AiQuality(aireq)
         elif aireq.ai == 'score':
             airesp = AiScore(aireq)

@@ -1,6 +1,7 @@
 from types import *
 import copy
 import math
+import random
 
 class Board:
     board = []
@@ -117,6 +118,18 @@ class Board:
         for i in range(0, 16):
             cp[i] = slope * (cp[i] - cp16) + minp
         return (self.score * cp[16-len(drops)])
+
+    def drop(self):
+        newboard = Board(self.board)
+        drops = self.possibleDrops()
+        if (len(drops) == 0):
+            return newboard
+        choice = random.choice(drops)
+        if (random.random() > .9):
+            newboard.board[choice[0]][choice[1]] = 4
+        else:
+            newboard.board[choice[0]][choice[1]] = 2
+        return newboard
 
 def squishZeros(vector):
     index = 0
