@@ -10,18 +10,19 @@ def AiLookahead(aireq):
 	x = (scanBoard(aireq.b, int(args[0])+1, int(args[1])+1))
 	print str(scanned)
 	scanned = 0
-	return AiResponse(x[0], "with a quality of " + str(x[1]))
+	return AiResponse(x[0], "Q: " + str(x[1]))
 
 #samples depth drops and returns the average quality of the resulting boards
 def scanDrops(b, depth, breadth):
-	if (depth <= 0 or len(b.possibleDrops()) == 0):
+	drops = b.possibleDrops()
+	if (depth <= 0 or len(drops) == 0):
 		return b.quality()
 	else:
 		if (breadth <= 0):
 			breadth = 1
 		qual = 0
 		for i in range (0, breadth):
-			qual += scanBoard(b.drop(), depth, breadth)[1]
+			qual += scanBoard(b.drop(drops), depth, breadth)[1]
 		return (qual / breadth)
 
 #scans all directions and returns the best one

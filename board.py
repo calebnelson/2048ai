@@ -3,9 +3,22 @@ import copy
 import math
 import random
 
+def crowdPenalty():
+    cp = []
+    magic = 17.0
+    for i in range(0, 17):
+        cp.append(math.log(magic-i))
+    #map score from f[0] = 99%, f[16]=20%
+    cp0, cp16, minp, maxp = cp[0], cp[16], .20, .99
+    slope = (maxp-minp) / (cp0 - cp16)
+    for i in range(0, 17):
+        cp[i] = slope * (cp[i] - cp16) + minp
+    return cp
+
 class Board:
     board = []
     score = 0
+    cp = []
 
     def __init__(self, grid = None, scr = None):
         self.board = []
@@ -22,6 +35,7 @@ class Board:
                 grid.extend([0 for x in range(16-len(grid))])
             for row in range(0, 4):
                 self.board.append(grid[4*row:4*(row+1)])
+        self.cp = crowdPenalty()
 
     def __str__(self):
       rowStrs = []
@@ -108,24 +122,16 @@ class Board:
 
     def quality(self):
         drops = self.possibleDrops()
-        cp = []
-        magic = 17.0
-        for i in range(0, 17):
-            cp.append(math.log(magic-i))
-        #map score from f[0] = 99%, f[16]=20%
-        cp0, cp16, minp, maxp = cp[0], cp[16], .20, .99
-        slope = (maxp-minp) / (cp0 - cp16)
-        for i in range(0, 16):
-            cp[i] = slope * (cp[i] - cp16) + minp
-        return (self.score * cp[16-len(drops)])
+        return (self.score * self.cp[16-len(drops)])
 
-    def drop(self):
+    def drop(self, drops = None):
+        if (drops == None):
+            drops = self.possibleDrops()
         newboard = Board(self.board)
-        drops = self.possibleDrops()
         if (len(drops) == 0):
             return newboard
         choice = random.choice(drops)
-        if (random.random() > .9):
+        if (random.random() >= .9):
             newboard.board[choice[0]][choice[1]] = 4
         else:
             newboard.board[choice[0]][choice[1]] = 2
@@ -166,3 +172,5 @@ if __name__ == "__main__":
     print str(testb.move("r"))
     print str(testb.possibleDrops())
     print str(testb.quality())
+    print str(testb.drop(testb.possibleDrops()))
+    print str(testb.cp)
