@@ -72,7 +72,7 @@ class Board:
         return False
 
     def move(self, dir):
-        newboard = Board(self.board)
+        newboard = Board(self.board, self.score)
         newscr = self.score
         if (not self.tryDir(dir)):
             return newboard
@@ -127,7 +127,7 @@ class Board:
     def drop(self, drops = None):
         if (drops == None):
             drops = self.possibleDrops()
-        newboard = Board(self.board)
+        newboard = Board(self.board, self.score)
         if (len(drops) == 0):
             return newboard
         choice = random.choice(drops)
