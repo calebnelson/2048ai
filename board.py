@@ -3,7 +3,7 @@ import copy
 import math
 import random
 
-def crowdPenalty():
+def crowdCompute():
     cp = []
     magic = 17.0
     for i in range(0, 17):
@@ -15,10 +15,11 @@ def crowdPenalty():
         cp[i] = slope * (cp[i] - cp16) + minp
     return cp
 
+CrowdCompute = crowdCompute()
+
 class Board:
     board = []
     score = 0
-    cp = []
 
     def __init__(self, grid = None, scr = None):
         self.board = []
@@ -35,7 +36,6 @@ class Board:
                 grid.extend([0 for x in range(16-len(grid))])
             for row in range(0, 4):
                 self.board.append(grid[4*row:4*(row+1)])
-        self.cp = crowdPenalty()
 
     def __str__(self):
       rowStrs = []
@@ -121,8 +121,9 @@ class Board:
         return drops
 
     def quality(self):
+        global CrowdCompute
         drops = self.possibleDrops()
-        return (self.score * self.cp[16-len(drops)])
+        return (self.score * CrowdCompute[16-len(drops)])
 
     def drop(self, drops = None):
         if (drops == None):
@@ -173,4 +174,3 @@ if __name__ == "__main__":
     print str(testb.possibleDrops())
     print str(testb.quality())
     print str(testb.drop(testb.possibleDrops()))
-    print str(testb.cp)
