@@ -1,5 +1,7 @@
 from types import *
 import copy
+import math
+
 class Board:
     board = []
     score = 0
@@ -95,6 +97,27 @@ class Board:
             newboard.score = newscr
             return newboard
 
+    def possibleDrops(self):
+        drops = []
+        for row in range(0, 4):
+            for col in range(0, 4):
+                if (self.board[row][col] == 0):
+                    drops.append((row, col))
+        return drops
+
+    def quality(self):
+        drops = self.possibleDrops()
+        cp = []
+        magic = 17.0
+        for i in range(0, 17):
+            cp.append(math.log(magic-i))
+        #map score from f[0] = 99%, f[16]=20%
+        cp0, cp16, minp, maxp = cp[0], cp[16], .20, .99
+        slope = (maxp-minp) / (cp0 - cp16)
+        for i in range(0, 16):
+            cp[i] = slope * (cp[i] - cp16) + minp
+        return (self.score * cp[16-len(drops)])
+
 def squishZeros(vector):
     index = 0
     for i in range(0, len(vector)):
@@ -128,3 +151,5 @@ if __name__ == "__main__":
     print testb.tryDir("right")
     print str(testb)
     print str(testb.move("r"))
+    print str(testb.possibleDrops())
+    print str(testb.quality())

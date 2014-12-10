@@ -12,6 +12,7 @@ from aiapi import AiRequest, AiResponse
 from aibasic import AiRand, AiLeft
 from aicorner import AiCorner
 from aiscore import AiScore
+from aiquality import AiQuality
 
 def handler(req):
   # Get URL paramaters from apache web server as dictionary
@@ -23,7 +24,9 @@ def handler(req):
 
   # Build an aireq from the args, and call the proper AI
   aireq = AiRequest(qdict)
-  if aireq.ai == "score":
+  if aireq.ai == 'quality':
+    airesp = AiQuality(aireq)
+  elif aireq.ai == 'score':
     airesp = AiScore(aireq)
   elif aireq.ai == 'corner' or aireq.ai == 'ul':
     airesp = AiCorner(aireq)
