@@ -6,7 +6,6 @@ scanned = 0
 def AiLookahead(aireq):
 	global scanned
 	args = aireq.arg.split(", ")
-	print str(args)
 	x = (scanBoard(aireq.b, int(args[0])+1, int(args[1])+1))
 	numscan = scanned
 	scanned = 0
