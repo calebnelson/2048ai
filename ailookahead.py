@@ -6,12 +6,19 @@ scanned = 0
 def AiLookahead(aireq):
 	global scanned
 	args = aireq.arg.split(", ")
-	x = (scanBoard(aireq.b, int(args[0])+1, int(args[1])+1))
+	if (len(args) != 2):
+		args = []
+		args.append(4)
+		args.append(2)
+	try:
+		x = (scanBoard(aireq.b, int(args[0])+1, int(args[1])+1))
+	except valueError:
+		x = (scanBoard(aireq.b, 5, 3))
 	numscan = scanned
 	scanned = 0
-	return AiResponse(x[0], "#B: " + str(numscan) + " Q: " + str(x[1]))
+	return AiResponse(x[0], "#B: " + str(numscan) + " Q: " + str(x[1])) # #B is the number of boards scanned before reaching the decision, Q is the quality of that decision
 
-#samples depth drops and returns the average quality of the resulting boards
+#samples breadth drops and returns the average quality of the resulting boards
 def scanDrops(b, depth, breadth):
 	drops = b.possibleDrops()
 	if (depth <= 0 or len(drops) == 0):

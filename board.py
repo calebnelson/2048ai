@@ -3,6 +3,7 @@ import copy
 import math
 import random
 
+#returns an array that contains weights for penalizing a more crowded board
 def crowdCompute():
     cp = []
     magic = 17.0
@@ -43,11 +44,13 @@ class Board:
        rowStrs.append(','.join(map(str, row)))
       return ("[" + '|'.join(rowStrs) + "] " + str(self.score))
 
+    #returns true if board[r0][c0] can move onto board[r1][c1], false otherwise
     def moveOk(self, r0, c0, r1, c1):
         a = self.board[r0][c0]
         b = self.board[r1][c1]
         return (a == 0 and b != 0) or (a != 0 and a == b)
 
+    #returns true if dir is a valid move for board, false otherwise
     def tryDir(self, dir):
         if (dir == 'l' or dir == "left"):
             for row in range(0,4):
@@ -71,6 +74,7 @@ class Board:
                         return True
         return False
 
+    #returns a board that would be the result if the current board was moved in direction dir
     def move(self, dir):
         newboard = Board(self.board, self.score)
         newscr = self.score
@@ -112,6 +116,7 @@ class Board:
             newboard.score = newscr
             return newboard
 
+    #returns an array of tuples that represent empty board locations, namely those that can recieve a random drop
     def possibleDrops(self):
         drops = []
         for row in range(0, 4):
@@ -120,11 +125,13 @@ class Board:
                     drops.append((row, col))
         return drops
 
+    #returns the quality of the current board
     def quality(self):
         global CrowdCompute
         drops = self.possibleDrops()
         return (self.score * CrowdCompute[16-len(drops)])
 
+    #returns a board that would be the result if the current board were to recieve a random drop from list drops, or from possibleDrops if drops is null
     def drop(self, drops = None):
         if (drops == None):
             drops = self.possibleDrops()
@@ -138,6 +145,7 @@ class Board:
             newboard.board[choice[0]][choice[1]] = 2
         return newboard
 
+#the following are helper functions to make move work
 def squishZeros(vector):
     index = 0
     for i in range(0, len(vector)):
