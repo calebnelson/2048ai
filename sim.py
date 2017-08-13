@@ -18,7 +18,7 @@ if __name__ == "__main__":
 		if (aireq.b.canMove() == False):
 			break
 	for i in range(0, len(lines)):
-		lines[i] = lines[i] + "," + str(len(lines)-(i+1)) + "\n"
+		lines[i] = lines[i] + "," + str(len(lines)-(i+1)) + "," + str(aireq.b.score) + "\n"
 		f.write(lines[i])
 	f.write(str(moveNum+1) + "," + str(aireq.b) + ",final")
 	f.close()
