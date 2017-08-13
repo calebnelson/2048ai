@@ -20,14 +20,17 @@ class AiRequest:
 
   # Build an empty request, or one parsed from a dictionary of URL params
   def __init__(self, query = None):
-      
-    # fetch params from URL
-    self.ai     = query.get('ai', "")
-    self.arg    = query.get('arg', "")
-    self.gid    = query.get('gid', "noid")
-    self.b = Board(query.get('board', "4,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0"), query.get('score', 0))
-    drop  = query.get('drop', "0,0,4")
-    prior = query.get('prior', "u")
+
+    drop = "0,0,4"
+    prior = "u"
+    if(query != None): 
+      # fetch params from URL
+      self.ai     = query.get('ai', "")
+      self.arg    = query.get('arg', "")
+      self.gid    = query.get('gid', "noid")
+      self.b = Board(query.get('board', "4,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0"), query.get('score', 0))
+      drop  = query.get('drop', "0,0,4")
+      prior = query.get('prior', "u")
 
     # remove spaces, turn into array of ints at least 16 long, then 2D board
 

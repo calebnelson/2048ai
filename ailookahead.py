@@ -1,5 +1,6 @@
 from aiapi import AiRequest, AiResponse, DirectionMap
 from board import Board
+from quality import quality
 
 scanned = 0
 
@@ -22,7 +23,7 @@ def AiLookahead(aireq):
 def scanDrops(b, depth, breadth):
 	drops = b.possibleDrops()
 	if (depth <= 0 or len(drops) == 0):
-		return b.quality()
+		return quality(b)
 	else:
 		if (breadth <= 0):
 			breadth = 1

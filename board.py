@@ -3,21 +3,6 @@ import copy
 import math
 import random
 
-#returns an array that contains weights for penalizing a more crowded board
-def crowdCompute():
-    cp = []
-    magic = 17.0
-    for i in range(0, 17):
-        cp.append(math.log(magic-i))
-    #map score from f[0] = 99%, f[16]=20%
-    cp0, cp16, minp, maxp = cp[0], cp[16], .20, .99
-    slope = (maxp-minp) / (cp0 - cp16)
-    for i in range(0, 17):
-        cp[i] = slope * (cp[i] - cp16) + minp
-    return cp
-
-CrowdCompute = crowdCompute()
-
 class Board:
     board = []
     score = 0
@@ -42,9 +27,9 @@ class Board:
       rowStrs = []
       for row in self.board:
        rowStrs.append(','.join(map(str, row)))
-      return ("[" + '|'.join(rowStrs) + "] " + str(self.score))
+      return ("[" + '|'.join(rowStrs) + "]," + str(self.score))
 
-    #returns true if board[r0][c0] can move onto board[r1][c1], false otherwise
+    #returns true if board[r1][c1] can move onto board[r0][c0], false otherwise
     def moveOk(self, r0, c0, r1, c1):
         a = self.board[r0][c0]
         b = self.board[r1][c1]
@@ -73,6 +58,10 @@ class Board:
                     if (self.moveOk(row, col, row-1, col)):
                         return True
         return False
+
+    #returns true if the board has any valid moves, false otherwise
+    def canMove(self):
+        return(self.tryDir('l') or self.tryDir('u') or self.tryDir('r') or self.tryDir('d'))
 
     #returns a board that would be the result if the current board was moved in direction dir
     def move(self, dir):
@@ -116,6 +105,16 @@ class Board:
             newboard.score = newscr
             return newboard
 
+    #returns true if the board can move num times, false if it can't.
+    def moveNum(self, num):
+        if (num <= 1):
+            return self.canMove()
+        return(self.move('l').drop().moveNum(num-1) or
+               self.move('u').drop().moveNum(num-1) or
+               self.move('r').drop().moveNum(num-1) or
+               self.move('d').drop().moveNum(num-1))
+
+
     #returns an array of tuples that represent empty board locations, namely those that can recieve a random drop
     def possibleDrops(self):
         drops = []
@@ -124,12 +123,6 @@ class Board:
                 if (self.board[row][col] == 0):
                     drops.append((row, col))
         return drops
-
-    #returns the quality of the current board
-    def quality(self):
-        global CrowdCompute
-        drops = self.possibleDrops()
-        return (self.score * CrowdCompute[16-len(drops)])
 
     #returns a board that would be the result if the current board were to recieve a random drop from list drops, or from possibleDrops if drops is null
     def drop(self, drops = None):
@@ -172,13 +165,13 @@ def makeMove(vector):
     return vscore
 
 if __name__ == "__main__":
-    testb = Board("0,0,0,0, 0,0,0,0, 2,8,0,0, 16,4,2,4", 60)
-    print testb.tryDir("left")
-    print testb.tryDir("up")
-    print testb.tryDir("down")
-    print testb.tryDir("right")
-    print str(testb)
-    print str(testb.move("r"))
-    print str(testb.possibleDrops())
-    print str(testb.quality())
-    print str(testb.drop(testb.possibleDrops()))
+    testb = Board("2,4,8,16, 16,8,4,2, 2,4,8,16, 16,8,2,4", 60)
+    #print testb.tryDir("left")
+    #print testb.tryDir("up")
+    #print testb.tryDir("down")
+    #print testb.tryDir("right")
+    #print str(testb)
+    #print str(testb.move("r"))
+    #print str(testb.possibleDrops())
+    #print str(testb.drop(testb.possibleDrops()))
+    print (testb.moveNum(10))

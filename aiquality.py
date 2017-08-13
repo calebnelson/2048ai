@@ -1,5 +1,6 @@
 from aiapi import AiRequest, AiResponse, DirectionMap
 from board import Board
+from quality import quality
 
 def AiQuality(aireq):
 	possibleBoards = [Board(None), Board(None), Board(None), Board(None)]
@@ -8,9 +9,9 @@ def AiQuality(aireq):
 		possibleBoards[i] = aireq.b.move(DirectionMap[i])
 		if (choice == (-1,-1)):
 			if (aireq.b.tryDir(DirectionMap[i])):
-				choice = (possibleBoards[i].quality(), i)
-		elif (possibleBoards[i].quality() > choice[0]):
-			choice = (possibleBoards[i].quality(), i)
+				choice = (quality(possibleBoards[i]), i)
+		elif (quality(possibleBoards[i]) > choice[0]):
+			choice = (quality(possibleBoards[i]), i)
 	return AiResponse(DirectionMap[choice[1]], "with a potential quality of " + str(choice[0]))
 
 if __name__ == "__main__":

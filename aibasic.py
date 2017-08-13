@@ -5,6 +5,8 @@ from random import randint
 
 def AiRand(aireq):
 	dir = DirectionMap[randint(0, 3)]
+	while(aireq.b.tryDir(dir) == False):
+		dir = DirectionMap[randint(0, 3)]
 	return AiResponse(dir, "rand " + str(aireq))
 
 def AiLeft(aireq):
