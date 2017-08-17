@@ -33,8 +33,8 @@ cLevel, cMoves, cScore, cMax = Column(), Column(), Column(), Column()
 dirs = { 'up':0, 'left':0, 'right':0, 'down':0 }
 
 x = tf.placeholder(tf.float32, [None, 16])
-W = tf.Variable(tf.zeros([16, 16]))
-b = tf.Variable(tf.zeros([16]))
+W = tf.Variable(tf.zeros([16, 16]), name='W')
+b = tf.Variable(tf.zeros([16]), name = 'b')
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 y_ = tf.placeholder(tf.float32, [None, 16])
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
@@ -46,10 +46,10 @@ boards = []
 labels = []
 i = 0
 for row in reader:
-    b = Board(row)
-    boards.append(b.board)
+    bo = Board(row)
+    boards.append(bo.board)
     temp = [0]*16
-    temp[(int(b.maxScore)/1000 - 1)] = 1
+    temp[(int(bo.maxScore)/1000 - 1)] = 1
     labels.append(temp)
     i += 1
     if (i >= 100):
@@ -66,13 +66,16 @@ csvfile.close()
 csvfile = open('gtest.csv', 'rb')
 reader = csv.reader(csvfile, delimiter=',', quotechar='|')
 for row in reader:
-    b = Board(row)
-    boards.append(b.board)
+    bo = Board(row)
+    boards.append(bo.board)
     temp = [0]*16
-    temp[(int(b.maxScore)/1000 - 1)] = 1
+    temp[(int(bo.maxScore)/1000 - 1)] = 1
     labels.append(temp)
 csvfile.close()
 
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print(sess.run(accuracy, feed_dict={x: boards, y_: labels}))
+
+saver = tf.train.Saver({'W': W, 'b': b})
+saver.save(sess, 'mnist-model')

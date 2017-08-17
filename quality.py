@@ -1,5 +1,15 @@
 from board import Board
 import math
+import tensorflow as tf
+import numpy as np
+
+class Model:
+        def __init__(self, name):
+                self.sess = tf.Session()
+                self.saver = tf.train.import_meta_graph(name)
+                self.saver.restore(self.sess, tf.train.latest_checkpoint('./'))
+                self.W = np.array(self.sess.run("W:0"))
+                self.bias = np.array(self.sess.run("b:0"))
 
 #returns the quality of board b
 def oldquality(b):
@@ -15,6 +25,12 @@ def oldquality(b):
 	drops = b.possibleDrops()
 	return (b.score * cp[16-len(drops)])
 
+def tfquality(b, m):
+        barray = np.array(b.board).flatten()
+        probs = tf.nn.softmax(np.add(np.dot(m.W, barray), m.bias)).eval(session=m.sess).reshape(1, 16)
+        labels = np.array([np.arange(1,17)]).reshape((16, 1))
+        return np.dot(probs, labels).astype(float)
+        
 def quality(b):
 	quality = 0
 	for i in range(0, 4):
@@ -28,4 +44,4 @@ def quality(b):
 # For testing
 if __name__ == "__main__":
 	testb = Board("0,0,0,0, 0,0,0,0, 2,8,0,0, 16,4,2,4", 60)
-	print newquality(testb)
+        print tfquality(testb)
