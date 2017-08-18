@@ -8,15 +8,15 @@ from quality import Model
 import sys
 
 if __name__ == "__main__":
-        m = Model("mnist-model.meta")
-        print "model loaded"
+    m = Model("mnist-model.meta")
+    print "model loaded"
 	aireq = AiRequest({'board':"2,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0", 'gid':1, 'prior':""})
 	moveNum = 0
 	lines = []
 	while (True):
 		moveNum += 1
-                sys.stdout.write(str(moveNum) + str(aireq.b))
-		airesp = AiTensorFlow(aireq, m)
+        #sys.stdout.write(str(moveNum) + str(aireq.b))
+		airesp = AiQuality(aireq, m)
 		aireq.b = aireq.b.move(airesp.dir)
 		lines.append(str(moveNum) + "," + str(aireq.b) + "," + str(airesp.dir))
 		aireq.b = aireq.b.drop()
