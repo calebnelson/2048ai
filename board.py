@@ -24,10 +24,10 @@ class Board:
                 self.board.append(grid[4*row:4*(row+1)])
 
     def __str__(self):
-      rowStrs = []
-      for row in self.board:
-       rowStrs.append(','.join(map(str, row)))
-      return ("[" + '|'.join(rowStrs) + "]," + str(self.score))
+        rowStrs = []
+        for row in self.board:
+            rowStrs.append(','.join(map(str, row)))
+        return (', '.join(rowStrs) + ", " + str(self.score))
 
     #returns true if board[r1][c1] can move onto board[r0][c0], false otherwise
     def moveOk(self, r0, c0, r1, c1):
@@ -170,7 +170,7 @@ if __name__ == "__main__":
     #print testb.tryDir("up")
     #print testb.tryDir("down")
     #print testb.tryDir("right")
-    #print str(testb)
+    print str(testb)
     #print str(testb.move("r"))
     #print str(testb.possibleDrops())
     #print str(testb.drop(testb.possibleDrops()))
