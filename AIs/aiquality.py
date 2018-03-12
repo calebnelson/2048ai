@@ -10,7 +10,7 @@ def AiQuality(aireq):
 		if (choice == (-1,-1)):
 			if (aireq.b.tryDir(DirectionMap[i])):
 				choice = (quality(possibleBoards[i]), i)
-		elif (aireq.b.tryDir(DirectionMap[i]) and quality(possibleBoards[i]) > choice[0]):
+		elif (quality(possibleBoards[i]) > choice[0]):
 			choice = (quality(possibleBoards[i]), i)
 	return AiResponse(DirectionMap[choice[1]], "with a potential quality of " + str(choice[0]))
 
